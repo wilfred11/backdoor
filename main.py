@@ -2,7 +2,6 @@ from pgmpy.inference import CausalInference
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete.CPD import TabularCPD
 
-
 do=2
 
 def print_full(cpd):
