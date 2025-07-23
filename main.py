@@ -2,6 +2,8 @@ from pgmpy.inference import CausalInference
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete.CPD import TabularCPD
 
+from functions import backdoor_paths
+
 do=2
 
 def print_full(cpd):
@@ -10,9 +12,13 @@ def print_full(cpd):
     print(cpd)
     TabularCPD._truncate_strtable = backup
 
+if do==1:
+    backdoor_paths(7)
+
 
 if do==2:
     causal_model = DiscreteBayesianNetwork([('male', 'drug'), ('male', 'recovery'), ('drug', 'recovery')])
+
     causal_model.get_random_cpds(n_states=2, inplace=True, seed=1)
 
     viz = causal_model.to_graphviz()
@@ -24,6 +30,13 @@ if do==2:
         cpt.to_csv(filename="out/"+fname+'.csv')
 
     causal_inference = CausalInference(causal_model)
+
+    print(f"Are there active backdoor paths? {not causal_inference.is_valid_backdoor_adjustment_set('drug', 'recovery')}")
+    adj_sets = causal_inference.get_all_backdoor_adjustment_sets("drug", "recovery")
+    print(f"If so, what's the possible backdoor adjustment sets? {adj_sets}")
+    fd_adj_sets = causal_inference.get_all_frontdoor_adjustment_sets("drug", "recovery")
+    print(f"What's the possible front adjustment sets? {fd_adj_sets}")
+
 
     do_drug_1 = causal_inference.query(variables=["recovery"], do={"drug": 1}, show_progress=False)
     do_drug_0 = causal_inference.query(variables=["recovery"], do={"drug": 0}, show_progress=False)

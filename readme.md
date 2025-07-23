@@ -26,9 +26,17 @@ To create a visual representation of the causal graph
 
 `viz.draw('out/drug_model.png', prog='dot')`
 
-To infer the effect of drug use on recovery
+To allow causal inference on the model
 
 `causal_inference = CausalInference(causal_model)`
+
+To find backdoor/frontdoor paths
+
+`bd_adj_sets = causal_inference.get_all_backdoor_adjustment_sets("drug", "recovery")`
+
+`fd_adj_sets = causal_inference.get_all_frontdoor_adjustment_sets("drug", "recovery")`
+
+To infer the effect of drug use on recovery
 
 `do_drug_1 = causal_inference.query(variables=["recovery"], do={"drug": 1}, show_progress=False)`
 
@@ -41,6 +49,8 @@ To retrieve the values
     `print(f"If the drug is not taken by anyone p(recovery)={do_drug_0.get_value(recovery=1):.4}")`
 
 ### Calculate by hand
+
+Some CPTs
 
 ![male.png](out/male.png)
 
