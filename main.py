@@ -1,10 +1,13 @@
+import matplotlib.pyplot as plt
 from pgmpy.inference import CausalInference
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete.CPD import TabularCPD
 
-from functions import backdoor_paths
+from functions import backdoor_paths, frontdoor_paths
 
-do=2
+#https://github.com/chengjun/mybook/blob/main/08-10-dowhy-estimation-methods.ipynb
+
+do=3
 
 def print_full(cpd):
     backup = TabularCPD._truncate_strtable
@@ -13,7 +16,7 @@ def print_full(cpd):
     TabularCPD._truncate_strtable = backup
 
 if do==1:
-    backdoor_paths(7)
+    backdoor_paths(4)
 
 
 if do==2:
@@ -55,6 +58,9 @@ if do==2:
     print(nd_effect)
     print(d_effect-nd_effect)
 
+
+if do==3:
+    frontdoor_paths()
 
 
 
