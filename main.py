@@ -3,7 +3,7 @@ from pgmpy.inference import CausalInference
 from pgmpy.models import DiscreteBayesianNetwork
 from pgmpy.factors.discrete.CPD import TabularCPD
 
-from functions import backdoor_paths, frontdoor_paths
+from functions import backdoor_paths, frontdoor_paths, frontdoor_paths1
 
 #https://github.com/chengjun/mybook/blob/main/08-10-dowhy-estimation-methods.ipynb
 
@@ -23,6 +23,8 @@ if do==2:
     causal_model = DiscreteBayesianNetwork([('male', 'drug'), ('male', 'recovery'), ('drug', 'recovery')])
 
     causal_model.get_random_cpds(n_states=2, inplace=True, seed=1)
+
+
 
     viz = causal_model.to_graphviz()
     viz.draw('out/drug_model.png', prog='dot')
@@ -60,7 +62,7 @@ if do==2:
 
 
 if do==3:
-    frontdoor_paths()
+    frontdoor_paths1()
 
 
 
